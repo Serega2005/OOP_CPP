@@ -1,5 +1,5 @@
 #include<iostream>
-using namespace sdt;
+using namespace std;
 
 void main()
 {

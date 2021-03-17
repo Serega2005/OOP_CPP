@@ -24,6 +24,7 @@
     <ProjectGuid>{498a47ef-9413-4616-85f6-3c18bc9dcef0}</ProjectGuid>
     <RootNamespace>OOPCPP</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Intro</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
