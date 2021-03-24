@@ -1,6 +1,8 @@
 ﻿#include<iostream>
 using namespace std;
 
+#define tab "\t"
+
 //создание структуры:
 class Point
 {
@@ -8,11 +10,11 @@ class Point
 	double x;//координаты по x
 	double y;//координаты по y
 public:
-	double get_x()
+	double get_x()const
 	{
 		return x;
 	}
-	double get_y()
+	double get_y()const
 	{
 		return y;
 	}
@@ -25,25 +27,65 @@ public:
 		this->y = y;
 	}
 	//           Constructors;
-	Point()
+	//Point()
+	//{
+	//	//Конструктор по умолчанию создаёт точку в начале координат
+	//	x = y = int();//Якобы вызываем конструктор по умолчанию для 'int', и он возвращает значение по умолчанию
+	//	cout << "DefautConstructor:\t" << this << endl;
+	//}
+	//Point(double x)
+	//{
+	//	//Конструктор с одним параметром создаёт точку на прямой.
+	//	this->x = x;
+	//	this->y = 0;
+	//	cout << "SingleArgumentDestructor:" << this << endl;
+	//}
+	//Point(double x, double y)
+	//{
+	//	//Конструктор с параметрами создаёт точку на плоскости
+	//	this->x = x;
+	//	this->y = y;
+	//	cout << "Constructor:\t\t" << this << endl;
+	//}
+	Point(double x = 0, double y = 0)
 	{
-		x = y = 0;
-		cout << "Constructor:\t" << this << endl;
-	}
-	Point(double x)
-	{
+		//Этот конструктор с параметрами может быть вызван без параметров, с одним параметром, с 2 параметрами
 		this->x = x;
-		this->y = 0;
-		cout << "Destructor:\t\t" << this << endl;
+		this->y = y;
+		cout << "Constructor:\t\t" << this << endl;
 	}
+	Point(const Point& other)
+	{
+		//other- это другой объект, копию которого мы создаём
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyConstructor:\t" << this << endl;
+	}
+
 	~Point()
 	{
 		cout << "Destructor:\t\t" << this << endl;
 	}
+
+	//             Operators:
+	void operator =(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyAssignment:\t\t" << this << endl;
+	}
+
 	//                 Methods:
 	void print()
 	{
 		cout << "X = " << x << "\tY = " << y << endl;
+	}
+	double distance(const Point& other)const
+	{
+		double x_distance = other.x - this->x;
+		double y_distance = other.y - this->y;
+		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);//sqrt -квадратный корень
+		return distance;
 	}
 
 };
@@ -53,8 +95,17 @@ public:
 //    структура - это тоже тип данных
 //       объект - это самая обычная переменная 
 
+double distance(const Point& A, const Point& B)
+{
+	double x_distance = A.get_x() - B.get_x();
+	double y_distance = A.get_y() - B.get_y();
+	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);//sqrt -квадратный корень
+	return distance;
+}
+
 //#define INTRO
-#define CONSTRUCTORS
+//#define CONSTRUCTORS
+#define DISTANCE
 
 void main()
 {
@@ -71,10 +122,36 @@ void main()
 	cout << pA->get_x() << "\t" << pA->get_y() << endl;
 #endif // INTRO
 
-//#ifdef CONSTRUSTORS
-	Point A;
+#ifdef CONSTRUSTORS
+	Point A;//Defaut Constructor
 	cout << A.get_x() << "\t" << A.get_y() << endl;
-	Point B = 5;
+
+	Point B = 5;//Single-Argument constructor
 	B.print();
-//#endif // CONSTRUSTORS
+
+	Point C(8);//Single-Argument constructor
+	C.print();
+
+	Point D{ 12 };//Single-Argument constructor
+	D.print();
+
+	int a(2);
+	int b{ 3 };
+	cout << a << tab << b << endl;
+
+	Point E(5, 3);//Parametrized constructor
+	E.print();
+
+	Point F = E; //CopyConstructor. Здесь мы создём объект, и инициализируем его другим объектом
+	Point G;     //DefaultConstructor
+	G = D;       //CopyAssignment - operator=
+	G.print();
+#endif // CONSTRUSTORS
+
+	Point A(2, 3);
+	Point B(4, 5);
+	A.print();
+	B.print();
+	cout << A.distance(B) << endl;
+	cout << distance(A, B) << endl;
 }
