@@ -1,5 +1,8 @@
 ﻿#include<iostream>
 using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
 
 #define tab "\t"
 
@@ -68,11 +71,12 @@ public:
 	}
 
 	//             Operators:
-	void operator =(const Point& other)
+	Point& operator =(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
 		cout << "CopyAssignment:\t\t" << this << endl;
+		return *this;
 	}
 
 	//                 Methods:
@@ -82,10 +86,11 @@ public:
 	}
 	double distance(const Point& other)const
 	{
-		double x_distance = other.x - this->x;
-		double y_distance = other.y - this->y;
-		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);//sqrt -квадратный корень
-		return distance;
+		//double x_distance = other.x - this->x;
+		//double y_distance = other.y - this->y;
+		//double distance = sqrt(x_distance * x_distance + y_distance * y_distance);//sqrt -квадратный корень
+		//return distance;
+		double distance = sqrt((other.x - this->x) * (other.x - this->x) + (other.y - this->y) * (other.y - this->y)); return distance;
 	}
 
 };
@@ -97,18 +102,22 @@ public:
 
 double distance(const Point& A, const Point& B)
 {
-	double x_distance = A.get_x() - B.get_x();
-	double y_distance = A.get_y() - B.get_y();
-	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);//sqrt -квадратный корень
-	return distance;
+	//double x_distance = A.get_x() - B.get_x();
+	//double y_distance = A.get_y() - B.get_y();
+	//double distance = sqrt(x_distance * x_distance + y_distance * y_distance);//sqrt -квадратный корень
+	//return distance;
+	double distance = sqrt((A.get_x() - B.get_x()) * (A.get_x() - B.get_x()) + (A.get_y() - B.get_y()) * (A.get_y() - B.get_y())); return distance;
 }
 
 //#define INTRO
 //#define CONSTRUCTORS
 #define DISTANCE
+//#define ASSIGNMENT_CHECK
+//#define OPERATOR_EXAMPELES
 
 void main()
 {
+	
 	setlocale(LC_ALL, "Russian");
 #ifdef INTRO
 	int a;
@@ -148,10 +157,27 @@ void main()
 	G.print();
 #endif // CONSTRUSTORS
 
+#ifdef ASSIGNMENT_CHECK
+	int a, b, c;
+	a = b = c = 0;
+	Point A, B, C;
+	A = B = C = Point();
+
+#endif // ASSIGNMENT_CHECK
+
+#ifdef DISTANCE
 	Point A(2, 3);
 	Point B(4, 5);
 	A.print();
 	B.print();
 	cout << A.distance(B) << endl;
 	cout << distance(A, B) << endl;
+#endif // DISTANCE
+
+#ifdef OPERATOR_EXAMPLES
+	cout << A + B << endl; //неявный вызов
+	cout << A.operator+(B) << endl;//явный вызов в классе
+	cout << operator+(A, B) << endl;//явный вызов за классом
+#endif // OPERATOR_EXAMPLES
+
 }
