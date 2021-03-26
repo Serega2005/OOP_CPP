@@ -64,7 +64,6 @@ public:
 		this->y = other.y;
 		cout << "CopyConstructor:\t" << this << endl;
 	}
-
 	~Point()
 	{
 		cout << "Destructor:\t\t" << this << endl;
@@ -78,6 +77,55 @@ public:
 		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
 	}
+
+	Point& operator+=(const Point& other)
+	{
+		this->x += other.x;
+		this->y += other.y;
+		cout << "Operator+=\t\t" << this << endl;
+		return *this;
+	}
+
+	//        Increment/Decrement
+
+	Point& operator++()//Prefix increment
+	{
+		this->x++;
+		this->y++;
+		cout << "Prefix increment+:\t\t" << this << endl;
+		return *this;
+	}
+	Point operator++(int)//Postfix increment
+	{
+		Point old = *this; //CopyConstructor
+		this->x++;
+		this->y++;
+		cout << "Postfix increment:\t" << this << endl;
+		return old;
+	}
+	/*Point operator+(const Point& other)const
+	{
+		Point result;
+		result.x = this->x + other.x;
+		result.y = this->y + other.y;
+		cout << "operator+" << endl;
+		return result;
+	}*/
+	/*Point operator-(const Point& other)const
+	{
+		Point result(this->x -other.x, this->y -other.y);
+		cout << "operator-" << endl;
+		return result;
+	}*/
+	/*Point operator*(const Point& other)
+	{
+		return Point(this->x * other.x, this->y * other.y);
+	}
+
+	Point operator/(const Point& other)
+	{
+		return Point(this->x / other.x, this->y / other.y);
+	}*/
 
 	//                 Methods:
 	void print()
@@ -109,15 +157,48 @@ double distance(const Point& A, const Point& B)
 	double distance = sqrt((A.get_x() - B.get_x()) * (A.get_x() - B.get_x()) + (A.get_y() - B.get_y()) * (A.get_y() - B.get_y())); return distance;
 }
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	cout << "Global plus" << endl;
+	return result;
+}
+Point operator-(const Point& left, const Point& right)
+{
+	Point result(
+		left.get_x() - right.get_x(), 
+		left.get_y() - right.get_y()
+	);
+	cout << "Global minus" << endl;
+	return result;
+}
+Point operator*(const Point& left, const Point& right)
+{
+	return Point(left.get_x() * right.get_x(), left.get_y() * right.get_y());
+}
+Point operator/(const Point& left, const Point& right)
+{
+	return Point(left.get_x() / right.get_x(), left.get_y() / right.get_y());
+}
+
+ostream& operator<<(ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << tab << "Y = " << obj.get_y();
+}
+
 //#define INTRO
 //#define CONSTRUCTORS
-#define DISTANCE
+//#define DISTANCE
 //#define ASSIGNMENT_CHECK
 //#define OPERATOR_EXAMPELES
+#define OPERATOR_OVERLOADS
+//#define ARITHMETICAL_OPERATOR
+#define COMPOUNT_ASSIGMENTS
 
 void main()
 {
-	
 	setlocale(LC_ALL, "Russian");
 #ifdef INTRO
 	int a;
@@ -180,4 +261,42 @@ void main()
 	cout << operator+(A, B) << endl;//явный вызов за классом
 #endif // OPERATOR_EXAMPLES
 
+#ifdef OPERATOR_OVERLOADS
+
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+	a += b;
+
+#ifdef ARITHMETICAL_OPERATOR
+
+
+	Point A(2, 3);
+	Point B(4, 5);
+	Point C = A + B;
+	C.print();
+	Point D = A - B;
+	D.print();
+	//Point F = A.operator*(B);//Явный вызов глобального оператора.
+	Point F = operator*(A, B);//Явный вызов глобального оператора.
+	F.print();
+	(A / B).print();
+#endif // ARITHMETICAL_OPERATOR
+
+#ifdef COMPOUNT_ASSIGMENTS
+	Point A(2, 3);
+	Point B(4, 5);
+	A += B;
+	A.print();
+	/*++A;
+	A.print();
+	A++;
+	A.print();*/
+	cout << A++ << endl;
+	cout << A << endl;
+	cout << ++A << endl;
+	cout << A << endl;
+#endif // COMPOUNT_ASSIGMENTS
+
+#endif // OPERATOR_OVERLOADS
 }
