@@ -6,6 +6,68 @@ using std::endl;
 
 #define tab "\t"
 
+//class Fraction
+//{
+//	int x;
+//	int y;
+//public:
+//	int get_x()const
+//	{
+//		return x;
+//	}
+//	int get_y()const
+//	{
+//		return y;
+//	}
+//	void set_x(int x)
+//	{
+//		this->x = x;
+//	}
+//	void set_y(int y)
+//	{
+//		this->y = y;
+//	}
+//
+//	//            Constructor
+//
+//	Fraction(int x = 0, int y = 0)
+//	{
+//		//Этот конструктор с параметрами может быть вызван без параметров, с одним параметром, с 2 параметрами
+//		this->x = x;
+//		this->y = y;
+//		cout << "Constructor:\t\t" << this->x << "/" << this->y << endl;
+//	}
+//	Fraction(const Fraction& other)
+//	{
+//		//other- это другой объект, копию которого мы создаём
+//		this->x = other.x;
+//		this->y = other.y;
+//		cout << "CopyConstructor:\t" << this->x << "/" << this->y << endl;
+//	}
+//	~Fraction()
+//	{
+//		cout << "Destructor:\t\t" << this->x << "/" << this->y << endl;
+//	}
+//	//               Operators:
+//
+//	//                 Metods:
+//	void fraction()
+//	{
+//		cout << "X" << x << "/" << "Y" << y << endl;
+//	}
+//
+//	void to_improper(const Fraction& other)const
+//	{
+//		int x_to_improper = this->x;
+//		int y_to_improper = this->y;
+//		if (x > y)
+//		{
+//
+//		}
+//
+//	}
+//};
+
 //создание структуры:
 class Point
 {
