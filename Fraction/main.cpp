@@ -3,6 +3,11 @@ using namespace std;
 
 #define tab "\t"
 
+class Fraction;//Обьявление класса
+Fraction operator+(Fraction left, Fraction right);//Прототип оператора +
+Fraction operator-(Fraction left, Fraction right);//Прототип оператора -
+Fraction operator*(Fraction left, Fraction right);//Прототип оператора *
+Fraction operator/(Fraction left, Fraction right);//Прототип оператора /
 class Fraction
 {
 	bool minus;//нужно реализовать
@@ -69,6 +74,30 @@ public:
 	{
 		cout << "Destructor:\t" << this << endl;
 	}
+	Fraction& operator=(const Fraction& other)
+	{
+		this->minus = other.minus;
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		return *this;
+	}
+	Fraction& operator+=(const Fraction& other)
+	{
+		return *this = *this + other;
+	}
+	Fraction& operator-=(const Fraction& other)
+	{
+		return *this = *this - other;
+	}
+	Fraction& operator*=(const Fraction& other)
+	{
+		return *this = *this*other;
+	}
+	Fraction& operator/=(const Fraction& other)
+	{
+		return *this = *this / other;
+	}
 
 	//         Methods:
 	Fraction& to_proper()
@@ -109,7 +138,6 @@ Fraction operator-(Fraction left, Fraction right)
 	).to_proper();
 }
 
-
 Fraction operator*(Fraction left, Fraction right)
 {
 	left.to_improper();
@@ -132,7 +160,6 @@ Fraction operator/(Fraction left, Fraction right)
 	).to_proper();
 }
 
-
 ostream& operator <<(ostream& os, const Fraction& obj)
 {
 	if (obj.get_integer())os << obj.get_integer();
@@ -143,7 +170,23 @@ ostream& operator <<(ostream& os, const Fraction& obj)
 	return os;
 }
 
+bool operator ==(Fraction left, Fraction right)
+{
+	if (
+		left.get_integer() == right.get_integer() &&
+		left.get_denominator() == right.get_denominator() &&
+		left.get_numerator() == right.get_numerator()
+		)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 //#define CONSTRUCTORS_CHECK
+#define OPERATORS_CHECK
 
 void main()
 {
@@ -170,8 +213,11 @@ void main()
 	double b = 3.5;
 	cout << a * b << endl;*/
 
-	Fraction A(2, 3, 4);
-	Fraction B(5, 6, 7);
+#ifdef OPERATORS_CHECK
+
+
+	Fraction A(-2, 3, 4);
+	Fraction B(-5, 6, 7);
 	cout << A << tab << B << endl;
 	cout << A << " + " << B << " = " << A + B << endl;
 	cout << B << " - " << B << " = " << B - B << endl;
@@ -181,4 +227,12 @@ void main()
 	cout << A << " / " << B << " = " << A / B << endl;
 	cout << A << tab << B << endl;
 
+	A += B;
+	cout << A << endl;
+	A -= B;
+	cout << A << endl;
+	A *= B;
+	cout << A << endl;
+	A /= B;
+	cout << A << endl;
 }
