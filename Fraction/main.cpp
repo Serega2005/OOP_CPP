@@ -84,7 +84,7 @@ public:
 		this->denominator = 1;
 		cout << "Constructor0:\t" << this << endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->minus = false;
 		this->integer = integer;
@@ -164,6 +164,23 @@ public:
 	{
 		return *this = *this / other;
 	}
+	//         increment/decrement
+	Fraction& operator++()
+	{
+		this->integer++;
+		return *this;
+	}
+	Fraction operator++(int)
+	{
+		Fraction old = *this;
+		this->integer++;
+		return old;
+	}
+	//          Type cast operators:
+	operator int() const
+	{
+		return minus? -integer : integer;
+	}
 
 	//         Methods:
 	Fraction& to_proper()
@@ -180,6 +197,26 @@ public:
 		get_minus_from_number();
 		numerator += integer * denominator;
 		integer = 0;
+		return *this;
+	}
+	Fraction& reduce()
+	{
+		if (numerator == 0)return *this;
+		int more, less, rest;
+		//Выясняем кто больше, числитель, или знаменатель:
+		if (numerator > denominator)more = numerator, less = denominator;
+		else less = numerator, more = denominator;
+		//Находим наибольший общий делитель:
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+		} while (rest);
+		int GCD = more;	//Greatest Common Divisor
+		//Собственно сокращаем дробь:
+		numerator /= GCD;
+		denominator /= GCD;
 		return *this;
 	}
 };
@@ -201,14 +238,21 @@ Fraction operator+(Fraction left, Fraction right)
 
 Fraction operator-(Fraction left, Fraction right)
 {
-	left.to_proper().set_minus_to_number();
+	/*left.to_proper().set_minus_to_number();
 	right.to_proper().set_minus_to_number();
 	return Fraction
 	(
 		left.get_integer() - right.get_integer(),
 		left.get_numerator() * right.get_denominator() - right.get_numerator() * left.get_denominator(),
 		left.get_denominator() * right.get_denominator()
-	).to_proper().get_minus_from_number();
+	).to_proper().get_minus_from_number();*/
+	left.to_improper().set_minus_to_number();
+	right.to_improper().set_minus_to_number();
+	return Fraction
+	(
+		left.get_numerator() * right.get_denominator() - right.get_numerator() * left.get_denominator(),
+		left.get_denominator() * right.get_denominator()
+	).to_proper().reduce();
 }
 
 Fraction operator*(Fraction left, Fraction right)
@@ -268,8 +312,52 @@ bool operator ==(Fraction left, Fraction right)
 		return false;
 	}
 }
+bool operator !=(Fraction left, Fraction right)
+{
+	if (
+		left.get_integer() != right.get_integer() ||
+		left.get_denominator() != right.get_integer() ||
+		left.get_numerator() != right.get_numerator()
+		)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+bool operator >(Fraction left, Fraction right)
+{
+	if 
+		(
+		left.get_integer() > right.get_integer()
+		)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	if
+		(
+			left.get_integer() == right.get_integer() &&
+			left.get_numerator() > right.get_numerator() &&
+			left.get_denominator() == right.get_denominator()
+			)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
 //#define CONSTRUCTORS_CHECK
-#define OPERATORS_CHECK
+//#define OPERATORS_CHECK
+//#define COMPAUND_ASSIGMENTS_CHECK
 
 void main()
 {
@@ -296,11 +384,12 @@ void main()
 	double b = 3.5;
 	cout << a * b << endl;*/
 
+	/*Fraction A(2, 3, 4);
+	Fraction B(5, 6, 7);
+	cout << A << endl;
+	cout << B << endl;*/
+
 #ifdef OPERATORS_CHECK
-
-
-	Fraction A(-2, 3, 4);
-	Fraction B(-5, 6, 7);
 	cout << A << tab << B << endl;
 	cout << A << " + " << B << " = " << A + B << endl;
 	cout << B << " - " << B << " = " << B - B << endl;
@@ -311,6 +400,7 @@ void main()
 	cout << A << tab << B << endl;
 #endif // OPERATORS_CHECK
 
+#ifdef COMPAUND_ASSIGMENTS_CHECK
 	A += B;
 	cout << A << endl;
 	A -= B;
@@ -319,4 +409,31 @@ void main()
 	cout << A << endl;
 	A /= B;
 	cout << A << endl;
+#endif // COMPAUND_ASSIGMENTS_CHECK
+
+	Fraction reduse(840, 3600);
+	cout << reduse.reduce() << endl;
+	cout << Fraction(30, 7).reduce() << endl;
+
+	for (double i = .3; i < 10; i++)
+		cout << i << tab;
+	cout << endl;
+	for (Fraction i(1, 2); i.get_integer() < 10; ++i)
+		cout << i << tab;
+	cout << endl;
+	cout << typeid(3 + 2.5).name() << endl; 
+
+	Fraction A = 5;   // From int to Fraction
+	cout << sizeof(int) << endl;
+	cout << sizeof(Fraction) << endl;
+	int a = A;
+		/*
+		---------------------------
+		operator type()
+		{
+		   ....
+		   ....
+		}
+		---------------------------
+		*/
 }
