@@ -99,6 +99,24 @@ public:
 		cout << "Constructor1:\t" << this << endl;
 #endif // DEBUG
 	}
+	Fraction(double decimal)
+	{
+		decimal += 1e-10;
+		minus = false;
+		if (decimal < 0)
+		{
+			minus = true;
+			decimal = -decimal;
+		}
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9;
+		numerator = decimal * denominator;
+		reduce();
+#ifdef DEBUG
+		cout << "Constructor  double:\t" << this << endl;
+#endif // DEBUG
+	}
 	Fraction(int numerator, int denominator)
 	{
 		this->minus = false;
@@ -110,9 +128,7 @@ public:
 			minus = true;
 			this->numerator = -numerator;
 		}
-#ifdef DEBUG
 		cout << "Constructor2:\t" << this << endl;
-#endif // DEBUG
 	}
 	Fraction(int integer, int numerator, int denominator)
 	{
@@ -130,15 +146,11 @@ public:
 			minus = true;
 			this->numerator = -numerator;
 		}
-#ifdef DEBUG
         cout << "Constructor3:\t" << this << endl;
-#endif // DEBUG
 	}
 	~Fraction()
 	{
-#ifdef DEBUG
-        cout << "Destructor:\t" << this << endl;
-#endif // DEBUG
+		cout << "Destructor:\t" << this << endl;
 	}
 	Fraction& operator=(const Fraction& other)
 	{
@@ -177,9 +189,16 @@ public:
 		return old;
 	}
 	//          Type cast operators:
-	operator int() const
+	explicit operator int() const
 	{
-		return minus? -integer : integer;
+		return minus ? -integer : integer;
+	}
+
+	explicit operator double() const
+	{
+		double number = integer + (double)numerator/denominator;
+		if (minus)number = -number;
+		return number;
 	}
 
 	//         Methods:
@@ -312,6 +331,7 @@ bool operator ==(Fraction left, Fraction right)
 		return false;
 	}
 }
+
 bool operator !=(Fraction left, Fraction right)
 {
 	if (
@@ -327,6 +347,7 @@ bool operator !=(Fraction left, Fraction right)
 		return true;
 	}
 }
+
 bool operator >(Fraction left, Fraction right)
 {
 	if 
@@ -336,14 +357,19 @@ bool operator >(Fraction left, Fraction right)
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
-	if
+	else if
 		(
 			left.get_integer() == right.get_integer() &&
 			left.get_numerator() > right.get_numerator() &&
+			left.get_denominator() == right.get_denominator()
+			)
+	{
+		return true;
+	}
+	else if
+		(
+			left.get_integer() == right.get_integer() &&
+			left.get_numerator() == right.get_numerator() &&
 			left.get_denominator() == right.get_denominator()
 			)
 	{
@@ -353,12 +379,13 @@ bool operator >(Fraction left, Fraction right)
 	{
 		return false;
 	}
+	
 
 }
 //#define CONSTRUCTORS_CHECK
 //#define OPERATORS_CHECK
 //#define COMPAUND_ASSIGMENTS_CHECK
-
+#define INCREMENTS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -411,7 +438,8 @@ void main()
 	cout << A << endl;
 #endif // COMPAUND_ASSIGMENTS_CHECK
 
-	Fraction reduse(840, 3600);
+#ifdef INCREMENTS_CHECK
+	/*Fraction reduse(840, 3600);
 	cout << reduse.reduce() << endl;
 	cout << Fraction(30, 7).reduce() << endl;
 
@@ -421,12 +449,30 @@ void main()
 	for (Fraction i(1, 2); i.get_integer() < 10; ++i)
 		cout << i << tab;
 	cout << endl;
-	cout << typeid(3 + 2.5).name() << endl; 
+	cout << typeid(3 + 2.5).name() << endl;*/
 
-	Fraction A ;//5   // From int to Fraction
-	cout << sizeof(int) << endl;
-	cout << sizeof(Fraction) << endl;
-	int a = A;
+	//Fraction A = (Fraction)5;   // From int to Fraction
+	Fraction A(5); //Если конструктор explicit то его можно вызвать только так.
+	cout << "Fraction A = " << A << endl;
+	/*cout << sizeof(int) << endl;
+	cout << sizeof(Fraction) << endl;*/
+	int a = (int)A;
+	cout << "int a = " << a << endl;
+#endif // INCREMENTS_CHECK
+
+
+	/*Fraction B(-3, 4, 5);
+	cout << B << endl;
+	double b = (double)B;
+	cout << b << endl;
+
+	int c = (int)B;
+	cout << c << endl;*/
+
+	Fraction C = 2.3;
+	cout << C << endl;
+	cout << (double)C << endl;
+
 		/*
 		---------------------------
 		operator type()
