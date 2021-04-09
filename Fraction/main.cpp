@@ -423,7 +423,7 @@ void main()
 	cout << endl;
 	cout << typeid(3 + 2.5).name() << endl; 
 
-	Fraction A = 5;   // From int to Fraction
+	Fraction A ;//5   // From int to Fraction
 	cout << sizeof(int) << endl;
 	cout << sizeof(Fraction) << endl;
 	int a = A;
