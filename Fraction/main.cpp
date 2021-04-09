@@ -318,34 +318,24 @@ ostream& operator <<(ostream& os, const Fraction& obj)
 
 bool operator ==(Fraction left, Fraction right)
 {
-	if (
-		left.get_integer() == right.get_integer() &&
-		left.get_denominator() == right.get_denominator() &&
-		left.get_numerator() == right.get_numerator()
-		)
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	/*if (left.get_numerator() == right.get_numerator() && left.get_denominator() == right.get_denominator())
 	{
 		return true;
 	}
 	else
 	{
 		return false;
-	}
+	}*/
+	return left.get_numerator() == right.get_numerator() && left.get_denominator() == right.get_denominator();
 }
 
-bool operator !=(Fraction left, Fraction right)
+bool operator !=(const Fraction& left, const Fraction& right)
 {
-	if (
-		left.get_integer() != right.get_integer() ||
-		left.get_denominator() != right.get_integer() ||
-		left.get_numerator() != right.get_numerator()
-		)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	
+	return !(left==right);
+
 }
 
 bool operator >(Fraction left, Fraction right)
@@ -385,7 +375,9 @@ bool operator >(Fraction left, Fraction right)
 //#define CONSTRUCTORS_CHECK
 //#define OPERATORS_CHECK
 //#define COMPAUND_ASSIGMENTS_CHECK
-#define INCREMENTS_CHECK
+//#define INCREMENTS_CHECK
+#define COMPARISON_OPERATORS
+
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -469,9 +461,26 @@ void main()
 	int c = (int)B;
 	cout << c << endl;*/
 
-	Fraction C = 2.3;
+	/*Fraction C = 2.3;
 	cout << C << endl;
-	cout << (double)C << endl;
+	cout << (double)C << endl;*/
+
+	
+#ifdef COMPARISON_OPERATORS
+	Fraction F(1, 2);
+	Fraction G(5, 11);
+	/*if (F == G)
+	{
+		cout << "Fraction equal" << endl;
+	}
+	else
+	{
+		cout << "Fractions different" << endl;
+	}*/
+	//cout << "Fractions " << (F == G ? "equal" : "different") << endl;
+	cout << (F == G) << endl;
+	cout << (F != G) << endl;
+#endif // COMPARISON_OPERATORS
 
 		/*
 		---------------------------
