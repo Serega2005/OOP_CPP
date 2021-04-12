@@ -340,37 +340,30 @@ bool operator !=(const Fraction& left, const Fraction& right)
 
 bool operator >(Fraction left, Fraction right)
 {
-	if 
-		(
-		left.get_integer() > right.get_integer()
-		)
-	{
-		return true;
-	}
-	else if
-		(
-			left.get_integer() == right.get_integer() &&
-			left.get_numerator() > right.get_numerator() &&
-			left.get_denominator() == right.get_denominator()
-			)
-	{
-		return true;
-	}
-	else if
-		(
-			left.get_integer() == right.get_integer() &&
-			left.get_numerator() == right.get_numerator() &&
-			left.get_denominator() == right.get_denominator()
-			)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-	
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	return left.get_numerator() > right.get_numerator() && left.get_denominator() > right.get_denominator();
+}
 
+bool operator <(Fraction left, Fraction right)
+{
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	return left.get_numerator() < right.get_numerator() && left.get_denominator() < right.get_denominator();
+}
+
+bool operator <=(Fraction left, Fraction right)
+{
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	return left.get_numerator() <= right.get_numerator() && left.get_denominator() <= right.get_denominator();
+}
+
+bool operator >=(Fraction left, Fraction right)
+{
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	return left.get_numerator() >= right.get_numerator() && left.get_denominator() >= right.get_denominator();
 }
 //#define CONSTRUCTORS_CHECK
 //#define OPERATORS_CHECK
@@ -467,7 +460,7 @@ void main()
 
 	
 #ifdef COMPARISON_OPERATORS
-	Fraction F(1, 2);
+	Fraction F(5, 11);
 	Fraction G(5, 11);
 	/*if (F == G)
 	{
@@ -480,6 +473,10 @@ void main()
 	//cout << "Fractions " << (F == G ? "equal" : "different") << endl;
 	cout << (F == G) << endl;
 	cout << (F != G) << endl;
+	cout << (F > G) << endl;
+	cout << (F < G) << endl;
+	cout << (F >= G) << endl;
+	cout << (F <= G) << endl;
 #endif // COMPARISON_OPERATORS
 
 		/*
