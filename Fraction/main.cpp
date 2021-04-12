@@ -369,7 +369,7 @@ bool operator >=(Fraction left, Fraction right)
 //#define OPERATORS_CHECK
 //#define COMPAUND_ASSIGMENTS_CHECK
 //#define INCREMENTS_CHECK
-#define COMPARISON_OPERATORS
+//#define COMPARISON_OPERATORS
 
 void main()
 {
@@ -471,12 +471,16 @@ void main()
 		cout << "Fractions different" << endl;
 	}*/
 	//cout << "Fractions " << (F == G ? "equal" : "different") << endl;
+	
+	
 	cout << (F == G) << endl;
 	cout << (F != G) << endl;
 	cout << (F > G) << endl;
 	cout << (F < G) << endl;
 	cout << (F >= G) << endl;
 	cout << (F <= G) << endl;
+
+
 #endif // COMPARISON_OPERATORS
 
 		/*
