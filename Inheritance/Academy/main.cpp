@@ -3,6 +3,15 @@
 #include<ctime>
 using namespace std;
 
+#define delimiter "------------------------------------------------------------------------\t"
+#define human_take_parameters   const string& last_name, const string& first_name, unsigned int age
+#define student_get_parameters const string& speciality, const string& group, double rating
+#define teacher_get_parameters const string& speciality, unsigned int experience
+
+#define human_give_parameters   last_name, first_name, age
+#define student_give_parameters speciality, group, rating
+#define teacher_give_parameters speciality, experience
+
 class Human
 {
 	string last_name;
@@ -89,9 +98,9 @@ public:
 	}
 	//         Constructor:
 	Student(
-		const string& last_name, const string& first_name, unsigned int age,// Атрибуты базового класса
-		const string& speciality, const string& group, double rating // Атрибуты нашего класса
-	):Human(last_name, first_name, age)
+		human_take_parameters,// Атрибуты базового класса
+		student_get_parameters // Атрибуты нашего класса
+	):Human(human_give_parameters)
 	{
 		set_speciality(speciality);
 		set_group(group);
@@ -134,9 +143,9 @@ public:
 	//               Constructors:
 	Teacher
 	(
-		const string& last_name, const string& first_name, unsigned int age,// Атрибуты базового класса
-		const string& speciality, unsigned int experience
-	) :Human(last_name, first_name, age)
+		human_take_parameters,
+		teacher_get_parameters
+	) :Human(human_give_parameters)
 	{
 		set_speciality(speciality);
 		set_experience(experience);
@@ -155,15 +164,72 @@ public:
 	
 };
 
+class Graduate: Student
+{
+	string issue;              //Тема дипломной работы
+	unsigned int project_size; // Размер работы
+public:
+	const string& get_issue()const
+	{
+		return issue;
+	}
+	unsigned int get_project_size()const
+	{
+		return project_size;
+	}
+	void set_issue(const string& issue)
+	{
+		this->issue = issue;
+	}
+	void set_project_size(unsigned int project_size)
+	{
+		this->project_size = project_size;
+	}
+	//         Constructor:
+	Graduate
+	(
+		human_take_parameters,
+		student_get_parameters,
+		const string& issue, unsigned int project_size
+	):Student(human_give_parameters, student_give_parameters)
+	{
+		set_issue(issue);
+		set_project_size(project_size);
+		cout << "GConstructor:\t" << this << endl;
+	}
+	~Graduate()
+	{
+		cout << "GDestructor:\t" << this << endl;
+	}
+	void info()const
+	{
+		Student::info();
+		cout << "Тема дипломной работы: " << issue << ", размер работы: " << project_size << " страниц" << endl;
+	}
+
+};
+
+//#define intheritence_check
+
+
 void main()
 {
+#ifdef inheritence_check
 	setlocale(LC_ALL, "");
 	/*Human human("Тупенко", "Василий", 18);
 	human.info();*/
 	Student vasya("Тупенко", "Василий", 18, "Программирование", "BV011", 4.5);
 	vasya.info();
-
+	cout << delimiter << endl;
 	Teacher teacher("Einstein", "Albert", 150, "Phisics", 120);
 	teacher.info();
+	cout << delimiter << endl;
+	Graduate Dima(
+		"Тупенко", "Дмитрий", 18,
+		"Программирование", "BV011", 4.5,
+		"Программирование на C++", 25);
+	Dima.info();
+	cout << delimiter << endl;
+#endif // inheritence_check
 
 }
