@@ -2,8 +2,11 @@
 #include<string>
 #include<ctime>
 using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;;
 
-#define delimiter "------------------------------------------------------------------------\t"
+#define delimiter "\n------------------------------------------------------------------------\n"
 #define human_take_parameters   const string& last_name, const string& first_name, unsigned int age
 #define student_get_parameters const string& speciality, const string& group, double rating
 #define teacher_get_parameters const string& speciality, unsigned int experience
@@ -52,12 +55,12 @@ public:
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
 	//              Methods:
-	void info()const
+	virtual void info()const
 	{
 		/*cout << "Last name:\t" << last_name << endl;
 		cout << "First_name:\t" << first_name << endl;
@@ -109,7 +112,7 @@ public:
 	}
 	~Student()
 	{
-		cout << "SDectructor" << this << endl;
+		cout << "SDectructor:\t" << this << endl;
 	}
 	//          Methods:
 	void info()const
@@ -164,7 +167,7 @@ public:
 	
 };
 
-class Graduate: Student
+class Graduate: public Student
 {
 	string issue;              //Тема дипломной работы
 	unsigned int project_size; // Размер работы
@@ -214,8 +217,8 @@ public:
 
 void main()
 {
-#ifdef inheritence_check
 	setlocale(LC_ALL, "");
+#ifdef inheritence_check
 	/*Human human("Тупенко", "Василий", 18);
 	human.info();*/
 	Student vasya("Тупенко", "Василий", 18, "Программирование", "BV011", 4.5);
@@ -232,4 +235,29 @@ void main()
 	cout << delimiter << endl;
 #endif // inheritence_check
 
+
+	//1.Generalization:
+	Human* group[] =
+	{
+		new Student("Батодалаев", "Даши", 16, "РПО", "PD_011", 5),
+		new Student("Загидуллин", "Линар", 32, "РПО", "PD_011", 5),
+		new Student("Маркин", "Даниил", 17, "РПО", "PD_011", 5),
+		new Graduate("Шугани", "Сергей", 15, "РПО", "PD_011", 5, "Защита персональных данных", 150),
+		new Teacher("Einstein", "Albert", 141, "Atrophisics", 110),
+		new Teacher("Richter", "Jeffrie", 45, "Windows development", 20)
+	};
+
+	cout << sizeof(group) << endl;
+	//2.Specialization:
+	cout << delimiter << endl;
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		group[i]->info();
+		cout << delimiter << endl;
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		delete group[i];
+	}
 }
