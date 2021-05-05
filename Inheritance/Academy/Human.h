@@ -26,7 +26,7 @@ class Human
 public:
 	const string& get_last_name()const;
 	const string& get_first_name()const;
-	const time_t get_age()const;
+	const unsigned int get_age()const;
 	void set_last_name(const string& last_name);
 	void set_first_name(const string& first_name);
 	void set_age(unsigned int age);
@@ -37,3 +37,5 @@ public:
 	//              Methods:
 	virtual void info()const;
 };
+
+ostream& operator<<(ostream& os, const Human& obj);

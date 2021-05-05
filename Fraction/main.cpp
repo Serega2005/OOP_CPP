@@ -1,19 +1,19 @@
-ï»¿#include <iostream>
+#include <iostream>
 using namespace std;
 
 #define tab "\t"
 
-class Fraction;//ÐžÐ±ÑŒÑÐ²Ð»ÐµÐ½Ð¸Ðµ ÐºÐ»Ð°ÑÑÐ°
-Fraction operator+(Fraction left, Fraction right);//ÐŸÑ€Ð¾Ñ‚Ð¾Ñ‚Ð¸Ð¿ Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð° +
-Fraction operator-(Fraction left, Fraction right);//ÐŸÑ€Ð¾Ñ‚Ð¾Ñ‚Ð¸Ð¿ Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð° -
-Fraction operator*(Fraction left, Fraction right);//ÐŸÑ€Ð¾Ñ‚Ð¾Ñ‚Ð¸Ð¿ Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð° *
-Fraction operator/(Fraction left, Fraction right);//ÐŸÑ€Ð¾Ñ‚Ð¾Ñ‚Ð¸Ð¿ Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð° /
+class Fraction;//Îáüÿâëåíèå êëàññà
+Fraction operator+(Fraction left, Fraction right);//Ïðîòîòèï îïåðàòîðà +
+Fraction operator-(Fraction left, Fraction right);//Ïðîòîòèï îïåðàòîðà -
+Fraction operator*(Fraction left, Fraction right);//Ïðîòîòèï îïåðàòîðà *
+Fraction operator/(Fraction left, Fraction right);//Ïðîòîòèï îïåðàòîðà /
 class Fraction
 {
-	bool minus;//Ð½ÑƒÐ¶Ð½Ð¾ Ñ€ÐµÐ°Ð»Ð¸Ð·Ð¾Ð²Ð°Ñ‚ÑŒ
-	int integer;    //Ñ†ÐµÐ»Ð°Ñ Ñ‡Ð°ÑÑ‚ÑŒ
-	int numerator;  //Ð§Ð¸ÑÐ»Ð¸Ñ‚ÐµÐ»ÑŒ
-	int denominator;//Ð—Ð½Ð°Ð¼ÐµÐ½Ð°Ñ‚ÐµÐ»ÑŒ
+	bool minus;//íóæíî ðåàëèçîâàòü
+	int integer;    //öåëàÿ ÷àñòü
+	int numerator;  //×èñëèòåëü
+	int denominator;//Çíàìåíàòåëü
 public:
 	bool get_minus()const
 	{
@@ -146,7 +146,7 @@ public:
 			minus = true;
 			this->numerator = -numerator;
 		}
-        cout << "Constructor3:\t" << this << endl;
+		cout << "Constructor3:\t" << this << endl;
 	}
 	~Fraction()
 	{
@@ -170,7 +170,7 @@ public:
 	}
 	Fraction& operator*=(const Fraction& other)
 	{
-		return *this = *this*other;
+		return *this = *this * other;
 	}
 	Fraction& operator/=(const Fraction& other)
 	{
@@ -196,7 +196,7 @@ public:
 
 	explicit operator double() const
 	{
-		double number = integer + (double)numerator/denominator;
+		double number = integer + (double)numerator / denominator;
 		if (minus)number = -number;
 		return number;
 	}
@@ -222,10 +222,10 @@ public:
 	{
 		if (numerator == 0)return *this;
 		int more, less, rest;
-		//Ð’Ñ‹ÑÑÐ½ÑÐµÐ¼ ÐºÑ‚Ð¾ Ð±Ð¾Ð»ÑŒÑˆÐµ, Ñ‡Ð¸ÑÐ»Ð¸Ñ‚ÐµÐ»ÑŒ, Ð¸Ð»Ð¸ Ð·Ð½Ð°Ð¼ÐµÐ½Ð°Ñ‚ÐµÐ»ÑŒ:
+		//Âûÿñíÿåì êòî áîëüøå, ÷èñëèòåëü, èëè çíàìåíàòåëü:
 		if (numerator > denominator)more = numerator, less = denominator;
 		else less = numerator, more = denominator;
-		//ÐÐ°Ñ…Ð¾Ð´Ð¸Ð¼ Ð½Ð°Ð¸Ð±Ð¾Ð»ÑŒÑˆÐ¸Ð¹ Ð¾Ð±Ñ‰Ð¸Ð¹ Ð´ÐµÐ»Ð¸Ñ‚ÐµÐ»ÑŒ:
+		//Íàõîäèì íàèáîëüøèé îáùèé äåëèòåëü:
 		do
 		{
 			rest = more % less;
@@ -233,7 +233,7 @@ public:
 			less = rest;
 		} while (rest);
 		int GCD = more;	//Greatest Common Divisor
-		//Ð¡Ð¾Ð±ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ ÑÐ¾ÐºÑ€Ð°Ñ‰Ð°ÐµÐ¼ Ð´Ñ€Ð¾Ð±ÑŒ:
+		//Ñîáñòâåííî ñîêðàùàåì äðîáü:
 		numerator /= GCD;
 		denominator /= GCD;
 		return *this;
@@ -332,8 +332,8 @@ bool operator ==(Fraction left, Fraction right)
 }
 bool operator !=(const Fraction& left, const Fraction& right)
 {
-	
-	return !(left==right);
+
+	return !(left == right);
 
 }
 bool operator >(const Fraction& left, const Fraction& right)
@@ -357,7 +357,7 @@ bool operator <=(const Fraction& left, const Fraction& right)
 	return left.get_numerator() <= right.get_numerator() && left.get_denominator() <= right.get_denominator();*/
 	return left > right || left == right;
 }
-bool operator >=(const Fraction& left,const Fraction& right)
+bool operator >=(const Fraction& left, const Fraction& right)
 {
 	/*left.to_improper().reduce();
 	right.to_improper().reduce();
@@ -426,7 +426,6 @@ void main()
 	/*Fraction reduse(840, 3600);
 	cout << reduse.reduce() << endl;
 	cout << Fraction(30, 7).reduce() << endl;
-
 	for (double i = .3; i < 10; i++)
 		cout << i << tab;
 	cout << endl;
@@ -436,7 +435,7 @@ void main()
 	cout << typeid(3 + 2.5).name() << endl;*/
 
 	//Fraction A = (Fraction)5;   // From int to Fraction
-	Fraction A(5); //Ð•ÑÐ»Ð¸ ÐºÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€ explicit Ñ‚Ð¾ ÐµÐ³Ð¾ Ð¼Ð¾Ð¶Ð½Ð¾ Ð²Ñ‹Ð·Ð²Ð°Ñ‚ÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ñ‚Ð°Ðº.
+	Fraction A(5); //Åñëè êîíñòðóêòîð explicit òî åãî ìîæíî âûçâàòü òîëüêî òàê.
 	cout << "Fraction A = " << A << endl;
 	/*cout << sizeof(int) << endl;
 	cout << sizeof(Fraction) << endl;*/
@@ -449,15 +448,13 @@ void main()
 	cout << B << endl;
 	double b = (double)B;
 	cout << b << endl;
-
 	int c = (int)B;
 	cout << c << endl;
-
 	Fraction C = 2.3;
 	cout << C << endl;
 	cout << (double)C << endl;*/
 
-	
+
 #ifdef COMPARISON_OPERATORS
 	Fraction F(1, 2);
 	Fraction G(5, 11);
@@ -479,13 +476,13 @@ void main()
 	cout << (F <= G) << endl;
 #endif // COMPARISON_OPERATORS
 
-		/*
-		---------------------------
-		operator type()
-		{
-		   ....
-		   ....
-		}
-		---------------------------
-		*/
+	/*
+	---------------------------
+	operator type()
+	{
+	   ....
+	   ....
+	}
+	---------------------------
+	*/
 }

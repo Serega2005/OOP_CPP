@@ -8,6 +8,10 @@ const string& Human::get_first_name()const
 {
 	return first_name;
 }
+const unsigned int Human::get_age()const
+{
+	return this->age;
+}
 
 void Human::set_last_name(const string& last_name)
 {
@@ -41,4 +45,9 @@ void Human::info()const
 	cout << "First_name:\t" << first_name << endl;
 	cout << "Age:\t\t" << age << " years" << endl;*/
 	cout << last_name << " " << first_name << ", " << age << " лет" << endl;
+}
+
+ostream& operator<<(ostream& os, const Human& obj)
+{
+	return os << obj.get_last_name() << " " << obj.get_first_name() << ", " << obj.get_age() << " лет";
 }
